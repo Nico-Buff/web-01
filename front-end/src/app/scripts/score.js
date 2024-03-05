@@ -1,4 +1,4 @@
-// TODO #import-html: use ES default imports to import game.html as template
+import template from "../views/score.html";
 import { parseUrl } from "./utils";
 
   // TODO #class: use the ES6 class keyword
@@ -6,7 +6,7 @@ import { parseUrl } from "./utils";
   export function ScoreComponent() {
     // TODO #extends: call super(template)
     var params = parseUrl();
-    // TODO #import-html: assign template to this.template
+    this.template = template;
     this.name = params.name;
     this.size = parseInt(params.size);
     this.time = parseInt(params.time);

@@ -1,4 +1,4 @@
-// TODO #import-html: use ES default imports to import welcome.html as template
+import template from "../views/welcome.html";
 // TODO #export-functions: remove the IIFE
 
  
@@ -6,7 +6,7 @@
   /* class WelcomeComponent constructor  */
   export function WelcomeComponent() {
     // TODO #extends: call super(template)
-    // TODO #import-html: assign template to this.template
+    this.template = template;
   }
 
   
