@@ -2,7 +2,7 @@ import template from "../views/game.html";
 import { parseUrl } from "./utils";
 import { Component } from "./component";
 
-var CARD_TEMPLATE = ""
+let CARD_TEMPLATE = ""
   .concat('<main class="card-cmp">')
   .concat('  <div class="card-wrapper">')
   .concat('    <img class="card front-face" alt="card" />')
@@ -12,7 +12,7 @@ var CARD_TEMPLATE = ""
 
 // TODO #export-functions: remove the IIFE
 
-  var environment = {
+  let environment = {
     api: {
       host: "http://localhost:8081",
     },
@@ -24,7 +24,7 @@ var CARD_TEMPLATE = ""
   export class GameComponent extends Component{
     constructor(){
       super(template)
-      var params = parseUrl();
+      let params = parseUrl();
       this._name = params.name;
       
     // save player name & game ize
@@ -45,17 +45,23 @@ var CARD_TEMPLATE = ""
           // create cards out of the config
           this._cards = [];
           // TODO #functional-programming: use Array.map() instead.
-          for (var i in this._config.ids) {
+          for (let i in this._config.ids) {
             this._cards[i] = new CardComponent(this._config.ids[i]);
           }
 
-          // TODO #functional-programming: use Array.forEach() instead.
-          // TODO #let-const: replace var with let.
-          for (var i in this._cards) {
-            var card = this._cards[i];
+          // TODO #functional-programming: use Array.forEach() instead. 
+          for (let i in this._cards) {
+            let card = this._cards[i];
 
-            // TODO #let-const: extract function _appendCard (ie: copy its body here and remove the function)
-            this._appendCard(card);
+            this._boardElement.appendChild(card.getElement());
+
+            card.getElement().addEventListener(
+              "click",
+              // TODO #arrow-function: use arrow function instead.
+              function () {
+                this._flipCard(card);
+              }.bind(this)
+              );
           }
 
           this.start();
@@ -63,23 +69,10 @@ var CARD_TEMPLATE = ""
       );
     }
 
-    /* method GameComponent._appendCard */
-    _appendCard(card){
-      this._boardElement.appendChild(card.getElement());
-
-      card.getElement().addEventListener(
-        "click",
-        // TODO #arrow-function: use arrow function instead.
-        function () {
-          this._flipCard(card);
-        }.bind(this)
-      );
-    }
-
     /* method GameComponent.start */
     start(){
       this._startTime = Date.now();
-      var seconds = 0;
+      let seconds = 0;
       // TODO #template-literals:  use template literals (backquotes)
       document.querySelector("nav .navbar-title").textContent =
         "Player: " + this._name + ". Elapsed time: " + seconds++;
@@ -97,7 +90,7 @@ var CARD_TEMPLATE = ""
 
      /* method GameComponent.fetchConfig */
      fetchConfig(cb){
-      var xhr =
+      let xhr =
       typeof XMLHttpRequest != "undefined"
         ? new XMLHttpRequest()
         : new ActiveXObject("Microsoft.XMLHTTP");
@@ -107,8 +100,8 @@ var CARD_TEMPLATE = ""
 
       // TODO #arrow-function: use arrow function instead.
       xhr.onreadystatechange = function () {
-        var status;
-        var data;
+        let status;
+        let data;
         // https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate
         if (xhr.readyState == 4) {
           // `DONE`
@@ -126,7 +119,7 @@ var CARD_TEMPLATE = ""
     
      /* method GameComponent.goToScore */
     goToScore(){
-      var timeElapsedInSeconds = Math.floor(
+      let timeElapsedInSeconds = Math.floor(
         (Date.now() - this._startTime) / 1000
       );
       clearInterval(this._timer);
@@ -134,7 +127,7 @@ var CARD_TEMPLATE = ""
       setTimeout(
         // TODO #arrow-function: use arrow function instead.
         function () {
-          var scorePage = "./#score";
+          let scorePage = "./#score";
           // TODO #template-literals:  use template literals (backquotes)
           window.location =
             scorePage +
@@ -207,7 +200,7 @@ var CARD_TEMPLATE = ""
 
   // TODO #card-component: Change images location to /app/components/game/card/assets/***.png
   // TODO #import-assets: use ES default import to import images.
-  var CARDS_IMAGE = [
+  let CARDS_IMAGE = [
     "/src/assets/cards/back.png",
     "/src/assets/cards/card-0.png",
     "/src/assets/cards/card-1.png",
