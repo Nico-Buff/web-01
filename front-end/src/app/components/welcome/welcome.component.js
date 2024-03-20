@@ -1,18 +1,19 @@
-import template from "../views/welcome.html";
-// TODO #export-functions: remove the IIFE
+import template from "../welcome/welcome.component.html";
+import { Component } from "../../scripts/component";
+import "./welcome.component.css";
 
  
-  // TODO #class: use the ES6 class keyword
-  /* class WelcomeComponent constructor  */
-  export function WelcomeComponent() {
-    // TODO #extends: call super(template)
+ 
+  export class WelcomeComponent extends Component{
+    /* class WelcomeComponent constructor  */
+    constructor() {
+    super(template)
     this.template = template;
   }
 
   
-  // TODO #class: turn function into a method of WelcomeComponent
   /* method WelcomeComponent.init */
-  WelcomeComponent.prototype.init = function init() {
+  init() {
     let form = document.querySelector("form.form-signin");
 
     form.addEventListener(
@@ -26,7 +27,7 @@ import template from "../views/welcome.html";
           let name = event.srcElement.querySelector("#nickname").value;
           let size = parseInt(event.srcElement.querySelector("#size").value);
 
-          _startGame(name, size);
+          this._startGame(name, size);
         }
       },
       false
@@ -35,9 +36,9 @@ import template from "../views/welcome.html";
     return this;
   };
 
-  // TODO #class: turn function into a method of WelcomeComponent
-  function _startGame(name, size) {
+  _startGame(name, size) {
     let gamePage = "./#game";
     window.location = `${gamePage}?name=${name}&size=${size}`;
   }
+}
 
